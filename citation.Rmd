@@ -480,5 +480,5 @@ div(style = "justify-content: left;display: flex;flex-wrap: wrap;padding-bottom:
 <div class="icon-bar">
   <a href="nutrientinstitute.org"><img src="NI_LOGO.png" style="width:50px;height:75px;float: right;margin:10px;"></a>
   <p style="float:right;padding-top:30px;"> Brought to you by </p>
-  <a href = "https://github.com/NutrientInstitute/citation" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a>
+  <a href = "https://github.com/NutrientInstitute/cfcc" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a>
 </div>
