@@ -1,5 +1,5 @@
 ---
-title: "Comprehensive Food Composition Citation (CFCC): Citation Generator"
+title: "Comprehensive Food Data Citation (CFDC): Citation Generator"
 runtime: shiny
 output: html_document
 self_contained: true
