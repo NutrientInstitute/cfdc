@@ -105,7 +105,7 @@ library(shiny)
 div(id = "app_info", 
     class = "collapse out",
     style = "background:#F5F5F5; padding: 10px;", 
-    p("This app creates and formats complete citations for food and nutrient data sources. Fill out the form below to generate a comprehensive citation of food composition data."),
+    p("Fill out the form below to generate a comprehensive food and nutrient data citation."),
     p("For further information, see the docummentation of this app on github:"),
     tags$a(href = "https://github.com/NutrientInstitute/cfdc", "https://github.com/NutrientInstitute/cfdc") )
          
