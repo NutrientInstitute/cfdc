@@ -105,9 +105,9 @@ library(shiny)
 div(id = "app_info", 
     class = "collapse out",
     style = "background:#F5F5F5; padding: 10px;", 
-    p("This app creates and formats complete citations for food composition data sources. Fill out the form below to generate a comprehensive citation of food composition data."),
+    p("This app creates and formats complete citations for food and nutrient data sources. Fill out the form below to generate a comprehensive citation of food composition data."),
     p("For further information, see the docummentation of this app on github:"),
-    tags$a(href = "https://github.com/NutrientInstitute/citation", "https://github.com/NutrientInstitute/citation") )
+    tags$a(href = "https://github.com/NutrientInstitute/cfdc", "https://github.com/NutrientInstitute/cfdc") )
          
          
 HTML("<button type='button' class='btn' data-toggle='collapse' style = 'outline: 2px solid #F1592A;float:left;' data-target='#app_info'><span class='glyphicon glyphicon-collapse-down'></span> More Information</button>")
@@ -480,5 +480,5 @@ div(style = "justify-content: left;display: flex;flex-wrap: wrap;padding-bottom:
 <div class="icon-bar">
   <a href="nutrientinstitute.org"><img src="NI_LOGO.png" style="width:50px;height:75px;float: right;margin:10px;"></a>
   <p style="float:right;padding-top:30px;"> Brought to you by </p>
-  <a href = "https://github.com/NutrientInstitute/cfcc" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a>
+  <a href = "https://github.com/NutrientInstitute/cfdc" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a>
 </div>
