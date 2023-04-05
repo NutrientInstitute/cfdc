@@ -97,7 +97,7 @@ knitr::opts_chunk$set(echo = FALSE,
 ```{r}
 library(tidyverse)
 library(shiny)
-
+library(shinyBS)
 ```
 
 ```{r}
@@ -121,7 +121,8 @@ HTML("<button type='button' class='btn' data-toggle='collapse' style = 'outline:
 <br>
 
 ```{r}
-# Input citation elements         
+# Input citation elements
+
 div(style = "justify-content: left;display: flex;flex-wrap: wrap;",
 div(style = "display:inline-block; margin:0px 5px 0px;",
     textInput(inputId = "author", 
@@ -129,7 +130,7 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
                 "Author(s)", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
                        style = "color:gray;",
-                       title = "Authors of the data formatted as the surname followed by initials of first and middle names; seperate names by a comma and a space")),  
+                       id = "author_tooltip")),  
               width = '400px', 
               placeholder = "ex) Haytowitz DB, Ahuja JKC, Wu X, Somanchi M, Nickle M, Nguyen QA, Roseland JM, Williams JR, Patterson KY, Li Y, et al.")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -280,6 +281,12 @@ div(style="display:inline-block; margin:0px 5px 0px;width: 95%;",
                  choices = c("Yes, it is provided with the dataset", "Yes, it must be accessed seperately from the dataset", "No")
                 )
 ))
+
+# Add tooltips with shinyBS
+
+bsPopover(id = "author_tooltip", title = "Authors of the data formatted as the surname followed by initials of first and middle names; seperate names by a comma and a space", 
+          placement = "bottom", trigger = "hover")
+
 ```
 ```{r}
 # Optionally input citation elements of codebook
