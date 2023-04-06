@@ -8,7 +8,12 @@ header-includes:
 - \doublespacing
 - \usepackage{titlesec}
 editor_options: 
-  markdown: 
+  markdown: Good Afternoon!
+
+You are a genius, your comments were super helpful. I love the idea of using the three pillars of interoperability as a framing device for section 3, and am working on adding it in. We are focusing on finishing up responses to reviewers on another publication, but we'll have a new draft for you to review by mid-to-late next week. 
+
+Have a good weekend and Happy Easter!
+Emily
     wrap: 90
 ---
 
