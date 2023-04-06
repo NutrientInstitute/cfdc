@@ -8,12 +8,7 @@ header-includes:
 - \doublespacing
 - \usepackage{titlesec}
 editor_options: 
-  markdown: Good Afternoon!
-
-You are a genius, your comments were super helpful. I love the idea of using the three pillars of interoperability as a framing device for section 3, and am working on adding it in. We are focusing on finishing up responses to reviewers on another publication, but we'll have a new draft for you to review by mid-to-late next week. 
-
-Have a good weekend and Happy Easter!
-Emily
+  markdown: 
     wrap: 90
 ---
 
@@ -110,14 +105,23 @@ library(shinyBS)
 div(id = "app_info", 
     class = "collapse out",
     style = "background:#F5F5F5; padding: 10px;", 
-    p("Fill out the form below to generate a comprehensive food and nutrient data citation."),
-    p("For further information, see the docummentation of this app on github:"),
-    tags$a(href = "https://github.com/NutrientInstitute/cfdc", "https://github.com/NutrientInstitute/cfdc") )
+    "Fill out the form below to generate a comprehensive food and nutrient data citation. Generated citations incorporate all applicable components of the CFDC standard and are formatted per ",
+    tags$a(href = "https://www.ncbi.nlm.nih.gov/books/NBK7273/#A57722",
+           "NLM Citing Medicine guidelines."),
+    br(),
+    br(),
+    "Further docummentation of this app can be found on  ",
+    tags$a(href = "https://github.com/NutrientInstitute/cfdc", "github"),
+    ".")
          
          
 HTML("<button type='button' class='btn' data-toggle='collapse' style = 'outline: 2px solid #F1592A;float:left;' data-target='#app_info'><span class='glyphicon glyphicon-collapse-down'></span> More Information</button>")
 
+
+
 ```
+
+
 
 <div>
 <br>
@@ -125,8 +129,13 @@ HTML("<button type='button' class='btn' data-toggle='collapse' style = 'outline:
 
 <br>
 
+## **Formal Citation Components**
+
+***
+
 ```{r}
 # Input citation elements
+# formal elements first, followed by descriptive
 
 div(style = "justify-content: left;display: flex;flex-wrap: wrap;",
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -134,7 +143,7 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Author(s)", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
+                       style = "color:gray;font-size:20px;",
                        id = "author_tooltip")),  
               width = '400px', 
               placeholder = "ex) Haytowitz DB, Ahuja JKC, Wu X, Somanchi M, Nickle M, Nguyen QA, Roseland JM, Williams JR, Patterson KY, Li Y, et al.")),
@@ -143,8 +152,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Name of Parent/Series", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Full unabbreviated name of parent-series containing data cited (if applicable)")), 
+                       style = "color:gray;font-size:20px;",
+                       id = "parent_tooltip")), 
               width = '400px', 
               placeholder = "ex) FoodData Central")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -152,8 +161,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Tile/Name", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Full unabbreviated name of the dataset")),   
+                       style = "color:gray;font-size:20px;",
+                       id = "title_tooltip")),   
               width = '400px', 
               placeholder = "ex) USDA National Nutrient Database for Standard Reference")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -161,18 +170,17 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Version", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Release #, Volume #, and/or Version subtitle -
-If multiple versions of the data were used, all versions must be provided (seperated by semicolons)")),  
+                       style = "color:gray;font-size:20px;",
+                       id = "version_tooltip")),  
               width = '400px', 
-              placeholder =  "ex) Version 1.5.0")),
+              placeholder = "ex) Version 1.5.0")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
     textInput(inputId = "edition", 
               label = tags$span(
                 "Edition", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Edition of the data (if applicable)")), 
+                       style = "color:gray;font-size:20px;",
+                       id = "edition_tooltip")), 
               width = '400px', 
               placeholder =  "ex) 5th Edition")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -180,8 +188,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Resource Type", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "The type or format of the data resource")),  
+                       style = "color:gray;font-size:20px;",
+                       id = "type_tooltip")),  
               width = '400px', 
               placeholder = "ex) Internet dataset")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -189,8 +197,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Place of Publication", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Physical site where the data was published (if applicable)")),
+                       style = "color:gray;font-size:20px;",
+                       id = "place_tooltip")),
               width = '400px', 
               placeholder = "ex) Wishington (DC)")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -198,8 +206,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Publisher", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Name of the organization responsible for publication of the data")), 
+                       style = "color:gray;font-size:20px;",
+                       id = "publisher_tooltip")), 
               width = '400px', 
               placeholder = "ex) Nutrient Data Laboratory, Beltsville Human Nutrition Research Center, ARS, USDA")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -207,17 +215,17 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Date of Publication", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "The date the data was published in YYYY MMM DD format")),  
+                       style = "color:gray;font-size:20px;",
+                       id = "pubdate_tooltip")),  
               width = '400px', 
               placeholder = "ex) 2019 May 2")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
     textInput(inputId = "revdate", 
               label = tags$span(
-                "Edition Date of Revision/Modification", 
+                "Most Recent Date of Revision/Modification", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "The most recent date the data was modified or revised in YYYY MMM DD format (if applicable)")),  
+                       style = "color:gray;font-size:20px;",
+                       id = "revdate_tooltip")),  
               width = '400px', 
               placeholder = "ex) 2019 May 2")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -225,8 +233,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Date Accessed", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "The date the data was retrieved from the publisher in YYYY MMM DD format")),
+                       style = "color:gray;font-size:20px;",
+                       id = "accessdate_tooltip")),
               width = '400px', 
               placeholder = "ex) 2019 May 2")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -234,8 +242,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "URL(s)", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "The digital location of the data, if multiple are provided list URLs seperated by semicolons")),  
+                       style = "color:gray;font-size:20px;",
+                       id = "url_tooltip")),  
               width = '400px', 
               placeholder = "ex) https://data.nal.usda.gov/dataset/usda-national-nutrient-database-standard-reference-legacy-release")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -243,8 +251,8 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Additional Idenitifier(s)", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Additional identifiers that can be used to locate the data such as DOI or PMID")), 
+                       style = "color:gray;font-size:20px;",
+                       id = "identifier_tooltip")), 
               width = '400px', 
               placeholder = "ex) identifier: 69ebc253-1869-4bf0-8471-b0c2fb5742f5")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
@@ -252,126 +260,13 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               label = tags$span(
                 "Funding Person(s) or Organization(s)", 
                 tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Person(s) or organization(s) responsible for funding the collection of the data (if applicable)")), 
+                       style = "color:gray;font-size:20px;",
+                       id = "funder_tooltip")), 
               width = '400px', 
-              placeholder = "ex) Agricultural Research Service")),
-div(style = "display:inline-block; margin:0px 5px 0px;",
-    textInput(inputId = "subset", 
-              label = tags$span(
-                "Subset of Data Used", 
-                tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Specifics of what data from this food composition data source was used - Include all data identifiers, methods of joining data, and filters used.")), 
-              width = '90vw', 
-              placeholder = "ex) foods in the food group Dairy and Egg Products, as specified by the FD_GROUP file")),
-div(style = "display:inline-block; margin:0px 5px 0px;",
-    textInput(inputId = "edits", 
-              label = tags$span(
-                "Modifications and Transformations", 
-                tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;",
-                       title = "Any edits or transformations made to the data during analysis including additions, transformations, modifications, etc...")), 
-              width = '90vw', 
-              placeholder = "ex) All units were transformed from milligrams to grams; missing nutrient measure values were inputted from scientific literature, source identified in supplemental tables.")),
-# Check if codebook was used
-div(style="display:inline-block; margin:0px 5px 0px;width: 95%;",
-    radioButtons(inputId = "codebook",
-                 width = '100%',
-                 label = tags$span(
-                   "Does this food composition data source have a codebook?",
-                   tags$i(class = "glyphicon glyphicon-info-sign",
-                          style = "color:gray;",
-                          title = "A resource used to understand and interpret the data")),
-                 choices = c("Yes, it is provided with the dataset", "Yes, it must be accessed seperately from the dataset", "No")
-                )
-))
-
-# Add tooltips with shinyBS
-
-bsPopover(id = "author_tooltip", title = "Authors of the data formatted as the surname followed by initials of first and middle names; seperate names by a comma and a space", 
-          placement = "bottom", trigger = "hover")
-
-```
-```{r}
-# Optionally input citation elements of codebook
-
-code_book <- reactive(input$codebook)
-
-renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
-  div(style = "justify-content: left;display: flex;flex-wrap: wrap;",
-      div(style = "display:inline-block; margin:0px 5px 0px;",
-          textInput(inputId = "cbauthor",
-                    label = tags$span(
-                      "Codebook Author",
-                      tags$i(class = "glyphicon glyphicon-info-sign",
-                             style = "color:gray;",
-                             title = "Formatted as the surname followed by initials of first and middle names; seperate names by a comma and a space")),
-                    width = '400px',
-                    placeholder = "ex) Rhodes DG, Morton S, Hymes MA, Friday JE, Martin CL, Steinfeldt LC, Moshfegh AJ")),
-  div(style = "display:inline-block; margin:0px 5px 0px;",
-    textInput(inputId = "cbtitle",
-              label = tags$span(
-                      "Codebook Title",
-                      tags$i(class = "glyphicon glyphicon-info-sign",
-                             style = "color:gray;",
-                             title = "Full unabbreviated title of the codebook")),
-                    width = '400px',
-                    placeholder = "ex) 2017-2018 Food and Nutrient Database
-for Dietary Studies: Documentation")),
-  div(style = "display:inline-block; margin:0px 5px 0px;",
-      textInput(inputId = "cbplace",
-                label = tags$span(
-                       "Codebook Place of Publication",
-                        tags$i(class = "glyphicon glyphicon-info-sign",
-                               style = "color:gray;",
-                               title = "Physical location where codebook was published")),
-                    width = '400px',
-                    placeholder = "ex) Beltsville, MD")),
-  div(style = "display:inline-block; margin:0px 5px 0px;",
-    textInput(inputId = "cbpub",
-               label = tags$span(
-                       "Codebook Publisher",
-                       tags$i(class = "glyphicon glyphicon-info-sign",
-                              style = "color:gray;",
-                             title = "Publisher of the codebook")),
-                    width = '400px',
-                    placeholder = "ex) U.S. Department of Agriculture, Agricultural Research Service, Beltsville Human Nutrition Research Center, Food Surveys Research Group")),
-  div(style = "display:inline-block; margin:0px 5px 0px;",
-  textInput(inputId = "cbpubdate",
-            label = tags$span(
-                   "Codebook Date of Publication",
-                   tags$i(class = "glyphicon glyphicon-info-sign",
-                          style = "color:gray;",
-                          title = "Date the codebook was published in YYYY MMM DD format")),
-                    width = '400px',
-                    placeholder = "ex) 2020 Jul 1")),
-  div(style = "display:inline-block; margin:0px 5px 0px;",
-  textInput(inputId = "cbaccess",
-            label = tags$span(
-                   "Codebook Date Accessed",
-                   tags$i(class = "glyphicon glyphicon-info-sign",
-                          style = "color:gray;",
-                          title = "Date codebook was accessed in YYYY MMM DD format")),
-                    width = '400px',
-                    placeholder = "ex) 2023 Mar 31")),
-  div(style = "display:inline-block; margin:0px 5px 0px;",
-  textInput(inputId = "cbURL",
-            label = tags$span(
-                   "Codebook URL",
-                   tags$i(class = "glyphicon glyphicon-info-sign",
-                          style = "color:gray;",
-                          title = "Electronic location of the codebook")),
-                    width = '400px',
-                    placeholder = "ex) https://www.ars.usda.gov/ARSUserFiles/80400530/pdf/fndds/2017_2018_FNDDS_Doc.pdf")))
-  
-})
-
+              placeholder = "ex) Agricultural Research Service")))
 ```
 
 <br>
-
-***
 
 ```{r}
 # Create formal citation
@@ -381,7 +276,8 @@ div(style="font-size:30px;font-weight:bold;padding-top:10px;padding-bottom:10px;
 
 div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height: 100px; background: #fdece7;padding: 10px;",
     id = "formal",
-    renderText(paste0(input$author, 
+    span(style = "color:gray;", renderText(ifelse(input$author == "" & input$parent == "" & input$title == "" & input$publisher == "" & input$URL == "" &input$accessdate == "" & input$revdate == "" & input$type == "" & input$edition == "" & input$version == "" & input$identifier == "", paste("EXAMPLE:", "Haytowitz DB, Ahuja JKC, Wu X, Somanchi M, Nickle M, Nguyen QA, Roseland JM, Williams JR, Patterson KY, Li Y, et al. USDA National Nutrient Database for Standard Reference, Legacy Release [Internet dataset]. Nutrient Data Laboratory, Beltsville Human Nutrition Research Center, ARS, USDA; 2019 May 7 [modified 2022 Jan 7; accessed 2022 Nov 7]. Available from: https://data.nal.usda.gov/dataset/usda-national-nutrient-database-standard-reference-legacy-release identifier: 69ebc253-1869-4bf0-8471-b0c2fb5742f5"),paste0("")))),
+    renderText(ifelse(input$author == "" & input$parent == "" & input$title == "" & input$publisher == "" & input$URL == "" &input$accessdate == "" & input$revdate == "" & input$type == "" & input$edition == "" & input$version == "" & input$identifier == "", paste0(""), paste0(input$author, 
                       ifelse(input$author == "", "", ". "), 
                       ifelse(input$parent != "", paste0("In: ", input$parent, ifelse(input$title != "",": ", "")), ""),
                       input$title, 
@@ -410,7 +306,7 @@ div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height
                       input$identifier,
                       ifelse(input$funder != "", paste0(" Funded by ", input$funder), "")
                       )
-               )
+               ))
     )
 )
 
@@ -419,47 +315,38 @@ div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height
 ```
 
 
-
 <div style="justify-content: left;display: flex;flex-wrap: wrap;">
 <button type='button' class='btn' style = 'outline: 2px solid #F1592A;' onclick="CopyToClipboard('formal');return false;">Copy Formal Citation</button>
 </div>
 <br>
 
-```{r}
-# Create optional codebook citation
-renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
-div(style = "justify-content: left;display: flex;flex-wrap: wrap;padding-bottom:10px;",
-    div(style="font-size:30px;font-weight:bold;background:#F1592A;color: white;width: 100%;text-align: left;outline: 2px solid #F1592A;padding: 10px;", 
-        renderText(paste0("Codebook Citation"))
-        ),
-    div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height: 100px; background: #fdece7;padding: 10px;",
-    id = "codebook",
-    renderText(paste0(input$cbauthor,
-                      ifelse(input$cbauthor != "", ". ", ""), 
-                      input$cbtitle,
-                      "[Internet].",
-                      input$cbplace,
-                      ifelse(input$cbplace != "" & input$cbpub != "", ": ","[place unknown]: " ),
-                      input$cbpub,
-                      ifelse(input$cbpubdate != "", "; ", ""),
-                      input$cbpubdate,
-                      ifelse(input$cbpubdate != "", " ", ""),
-                      ifelse(input$cbaccess != "", "[accessed ", ""),
-                      input$cbaccess,
-                      ifelse(input$cbaccess != "", "].", ""),
-                      ifelse(input$cbURL != "", "Available from: ", ""),
-                      input$cbURL))
-    )
-    )
-})
-renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
-  HTML("<div style='justify-content: left;display: flex;flex-wrap: wrap;'>
-<button type='button' class='btn' style = 'outline: 2px solid #F1592A;' onclick='CopyToClipboard('codebook');return false;'>Copy Codebook Citation</button>
-</div>
-<br>")
-})
+## **Descriptive Citation Components**
 
+***
+
+```{r}
+div(style = "justify-content: left;display: flex;flex-wrap: wrap;",
+div(style = "display:inline-block; margin:0px 5px 0px;",
+    textInput(inputId = "subset", 
+              label = tags$span(
+                "Subset of Data Used", 
+                tags$i(class = "glyphicon glyphicon-info-sign",
+                       style = "color:gray;font-size:20px;",
+                       id = "subset_tooltip")), 
+              width = '90vw', 
+              placeholder = "ex) foods in the food group Dairy and Egg Products, as specified by the FD_GROUP file")),
+div(style = "display:inline-block; margin:0px 5px 0px;",
+    textInput(inputId = "edits", 
+              label = tags$span(
+                "Modifications and Transformations", 
+                tags$i(class = "glyphicon glyphicon-info-sign",
+                       style = "color:gray;font-size:20px;",
+                       id = "edits_tooltip")), 
+              width = '90vw', 
+              placeholder = "ex) All units were transformed from milligrams to grams; missing nutrient measure values were inputted from scientific literature, source identified in supplemental tables.")))
 ```
+
+<br>
 
 ```{r}
 # Suggest in-text/descriptive citation
@@ -470,21 +357,315 @@ div(style = "justify-content: left;display: flex;flex-wrap: wrap;padding-bottom:
     div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height: 100px; background: #fdece7;padding: 10px;",
     id = "descriptive",
     renderText(paste0(ifelse(input$subset != "" & input$title != "", 
-                             paste0("The following subset of food composition data from ", input$title, " was included in this analysis:", input$subset ), 
-                             paste0("All food composition data from ", input$title, " was included in analysis. ")), 
+                             paste0("The following subset of food data from ", ifelse(input$title == "", "[dataset title]", input$title), " was included in this analysis:", input$subset ), 
+                             paste0("All food data from ", ifelse(input$title == "", "[dataset title]", input$title), " was included in analysis. ")), 
                       ifelse(input$edits != "", 
-                             paste0("Food composition data was transformed or altered for use in this analysis. The following edits were made: ", input$edits), 
-                             paste0("Food composition data was used as published, with no edits or transformations.")),
-                             paste0(" The Comprehensive Food Composition Citation (CFCC) guideline was used to facilitate replicability.")))
+                             paste0("Food data was transformed or altered for use in this analysis. The following edits were made: ", input$edits), 
+                             paste0("Food data was used as published, with no edits or transformations.")),
+                             paste0(" The Comprehensive Food Data Citation (CFDC) guideline was used to facilitate replicability.")))
     )
     )
 ```
-
 
 <div style="justify-content: left;display: flex;flex-wrap: wrap;">
 <button type='button' class='btn' style = 'outline: 2px solid #F1592A;' onclick="CopyToClipboard('descriptive');return false;">Copy Descriptive Citation</button>
 </div>
 <br>
+
+## **Codebook Citation Components**
+
+***
+
+```{r}
+# Check if codebook was used
+div(style = "justify-content: left;display: flex;flex-wrap: wrap;",
+div(style="display:inline-block; margin:0px 5px 0px;width: 95%;",
+    radioButtons(inputId = "codebook",
+                 width = '100%',
+                 label = tags$span(
+                   "Does this food data source have a codebook?",
+                   tags$i(class = "glyphicon glyphicon-info-sign",
+                          style = "color:gray;font-size:20px;",
+                          id = "codebook_tooltip")),
+                 choices = c("Yes, it is provided with the dataset", "Yes, it must be accessed seperately from the dataset", "No")
+                )
+))
+```
+```{r}
+# Add tooltips with shinyBS
+
+bsPopover(id = "author_tooltip",
+          title ="",
+          content = "List each author (if applicable). Format as surname followed by first initial and middle initial. Seperate names with commas", 
+          placement = "top",
+          trigger = "click")
+
+bsPopover(id = "parent_tooltip", 
+          title ="",
+          content = "Full unabbreviated name of parent-series containing data cited (if applicable)", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "title_tooltip", 
+          title ="",
+          content = "Full unabbreviated name of the dataset", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "version_tooltip", 
+          title ="",
+          content = "Release number, Volume number, and/or Version subtitle (if applicable); If multiple versions of the data were used, all versions must be provided (seperated by semicolons). <br>NOTE: Data version and edition can be used to mean the same thing. Provide any and all information.", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "edition_tooltip", 
+          title ="",
+          content = "Edition of the data release (if applicable). <br>NOTE: Data edition and version can be used to mean the same thing. Provide any and all information.", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "type_tooltip", 
+          title ="",
+          content = "The type or format of the data resource. Most common options include: Internet dataset, pdf, Microsoft Excel, CSV, TSV, RDF, JSON, Microsoft Access, SAS executable file, STATA, application, and book.", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "place_tooltip", 
+          title ="",
+          content = "Physical location where the data was published (if applicable).<br> NOTE: May be difficult to find", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "publisher_tooltip", 
+          title ="",
+          content = "Full name of the person(s) or organization(s) responsible for publishing the data", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "pubdate_tooltip", 
+          title ="",
+          content = "The date the data was published. Formatted as YYYY MMM DD", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "revdate_tooltip", 
+          title ="",
+          content = "The most recent date the data was modified or revised. Formatted as YYYY MMM DD (if applicable)", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "accessdate_tooltip", 
+          title ="",
+          content = "The date the data was retrieved from the publisher. Formatted as YYYY MMM DD", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "url_tooltip", 
+          title ="",
+          content = "The digital location of the data, if multiple are provided list URLs seperated by semicolons", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "identifier_tooltip", 
+          title ="",
+          content = "Additional identifiers that can be used to locate the data. Common examples include but are not limited to: DOI, PMID, ISSN, and ISBN.", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "funder_tooltip", 
+          title ="",
+          content = "Person(s) or organization(s) responsible for funding the collection of the data (if applicable)", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "subset_tooltip", 
+          title ="",
+          content = "Specifics of what data from this dataset was used; Include all data identifiers, methods of joining data, and filters used. If all data was used in analysis leave this blank.", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "edits_tooltip", 
+          title ="",
+          content = "All deviations from original data must be specified, this includes but is not limited to additions, modifications, exclusions, unit transformations, and calculations.", 
+          placement = "top", 
+          trigger = "click")
+
+bsPopover(id = "codebook_tooltip", 
+          title ="",
+          content = "A codebook is a resource for understanding or interpreting the data and can include information such as variable definitions and file descriptions.", 
+          placement = "top", 
+          trigger = "click")
+
+```
+```{r}
+# Optionally input citation elements of codebook
+
+code_book <- reactive(input$codebook)
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+  div(style = "justify-content: left;display: flex;flex-wrap: wrap;",
+      div(style = "display:inline-block; margin:0px 5px 0px;",
+          textInput(inputId = "cbauthor",
+                    label = tags$span(
+                      "Codebook Author",
+                      tags$i(class = "glyphicon glyphicon-info-sign",
+                             style = "color:gray;font-size:20px;",
+                             id = "cbauthor_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) Rhodes DG, Morton S, Hymes MA, Friday JE, Martin CL, Steinfeldt LC, Moshfegh AJ")),
+  div(style = "display:inline-block; margin:0px 5px 0px;",
+    textInput(inputId = "cbtitle",
+              label = tags$span(
+                      "Codebook Title",
+                      tags$i(class = "glyphicon glyphicon-info-sign",
+                             style = "color:gray;font-size:20px;",
+                             id = "cbtitle_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) 2017-2018 Food and Nutrient Database
+for Dietary Studies: Documentation")),
+  div(style = "display:inline-block; margin:0px 5px 0px;",
+      textInput(inputId = "cbplace",
+                label = tags$span(
+                       "Codebook Place of Publication",
+                        tags$i(class = "glyphicon glyphicon-info-sign",
+                               style = "color:gray;font-size:20px;",
+                               id = "cbplace_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) Beltsville, MD")),
+  div(style = "display:inline-block; margin:0px 5px 0px;",
+    textInput(inputId = "cbpub",
+               label = tags$span(
+                       "Codebook Publisher",
+                       tags$i(class = "glyphicon glyphicon-info-sign",
+                              style = "color:gray;font-size:20px;",
+                              id = "cbpub_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) U.S. Department of Agriculture, Agricultural Research Service, Beltsville Human Nutrition Research Center, Food Surveys Research Group")),
+  div(style = "display:inline-block; margin:0px 5px 0px;",
+  textInput(inputId = "cbpubdate",
+            label = tags$span(
+                   "Codebook Date of Publication",
+                   tags$i(class = "glyphicon glyphicon-info-sign",
+                          style = "color:gray;font-size:20px;",
+                          id = "cbpubdate_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) 2020 Jul 1")),
+  div(style = "display:inline-block; margin:0px 5px 0px;",
+  textInput(inputId = "cbaccess",
+            label = tags$span(
+                   "Codebook Date Accessed",
+                   tags$i(class = "glyphicon glyphicon-info-sign",
+                          style = "color:gray;font-size:20px;",
+                          id = "cbaccess_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) 2023 Mar 31")),
+  div(style = "display:inline-block; margin:0px 5px 0px;",
+  textInput(inputId = "cbURL",
+            label = tags$span(
+                   "Codebook URL",
+                   tags$i(class = "glyphicon glyphicon-info-sign",
+                          style = "color:gray;font-size:20px;",
+                          id = "cburl_tooltip")),
+                    width = '400px',
+                    placeholder = "ex) https://www.ars.usda.gov/ARSUserFiles/80400530/pdf/fndds/2017_2018_FNDDS_Doc.pdf")))
+  
+})
+
+#codebook input tooltips
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cbauthor_tooltip", 
+          title = "",
+          content =  "List each author (if applicable). Format as surname followed by first initial and middle initial. Seperate names with commas", 
+          placement = "top", 
+          trigger = "click")})
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cbtitle_tooltip", 
+          title = "",
+          content =  "Full unabbreviated name of the codebook", 
+          placement = "top", 
+          trigger = "click")})
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cbplace_tooltip", 
+          title = "",
+          content =  "Physical location where the data was published (if applicable). <br>NOTE: May be difficult to find", 
+          placement = "top", 
+          trigger = "click")})
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cbpub_tooltip", 
+          title = "",
+          content =  "Full name of the person(s) or organization(s) responsible for publishing the codebook", 
+          placement = "top", 
+          trigger = "click")})
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cbpubdate_tooltip", 
+          title = "",
+          content =  "Date the codebook was published. Formatted as YYYY MMM DD", 
+          placement = "top", 
+          trigger = "click")})
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cbaccess_tooltip", 
+          title = "",
+          content =  "Date codebook was accessed. Formatted as YYYY MMM DD", 
+          placement = "top", 
+          trigger = "click")})
+
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+bsPopover(id = "cburl_tooltip", 
+          title = "",
+          content =  "The digital location of the codebook, if multiple are provided list URLs seperated by semicolons", 
+          placement = "top", 
+          trigger = "click")})
+
+
+```
+
+<br>
+
+
+```{r}
+# Create optional codebook citation
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+div(style = "justify-content: left;display: flex;flex-wrap: wrap;padding-bottom:10px;",
+    div(style="font-size:30px;font-weight:bold;background:#F1592A;color: white;width: 100%;text-align: left;outline: 2px solid #F1592A;padding: 10px;", 
+        renderText(paste0("Codebook Citation"))
+        ),
+    div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height: 100px; background: #fdece7;padding: 10px;",
+    id = "copycodebook",
+    span(style = "color:gray;",
+         renderText(ifelse(input$cbauthor == "" & input$cbtitle == "" & input$cbplace == "" & input$cbpub == "" & input$cbpubdate == "" & input$cbaccess == "" & input$cbURL == "", paste0("EXAMPLE: Rhodes DG, Morton S, Hymes MA, Friday JE, Martin CL, Steinfeldt LC, Moshfegh AJ. 2017-2018 Food and Nutrient Database for Dietary Studies: Documentation[Internet].Beltsville, MD: U.S. Department of Agriculture, Agricultural Research Service, Beltsville Human Nutrition Research Center, Food Surveys Research Group; 2020 Jul 1 [accessed 2023 Mar 31].Available from: https://www.ars.usda.gov/ARSUserFiles/80400530/pdf/fndds/2017_2018_FNDDS_Doc.pdf"), paste0("")))),
+    renderText(ifelse(input$cbauthor == "" & input$cbtitle == "" & input$cbplace == "" & input$cbpub == "" & input$cbpubdate == "" & input$cbaccess == "" & input$cbURL == "", paste0(""), paste0(input$cbauthor,
+                      ifelse(input$cbauthor != "", ". ", ""), 
+                      input$cbtitle,
+                      "[Internet].",
+                      input$cbplace,
+                      ifelse(input$cbtitle != "" | input$cbauthor != "",ifelse(input$cbplace != "" & input$cbpub != "", ": ","[place unknown]: " ), ""),
+                      input$cbpub,
+                      ifelse(input$cbpubdate != "", "; ", ""),
+                      input$cbpubdate,
+                      ifelse(input$cbpubdate != "", " ", ""),
+                      ifelse(input$cbaccess != "", "[accessed ", ""),
+                      input$cbaccess,
+                      ifelse(input$cbaccess != "", "].", ""),
+                      ifelse(input$cbURL != "", "Available from: ", ""),
+                      input$cbURL)))
+    )
+    )
+})
+renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset"){
+  HTML("<div style='justify-content: left;display: flex;flex-wrap: wrap;'>
+<button type='button' class='btn' style = 'outline: 2px solid #F1592A;' onclick=\"CopyToClipboard('copycodebook');return false;\">Copy Codebook Citation</button>
+</div>
+<br>")
+})
+
+```
+
+
 
 ***
 
