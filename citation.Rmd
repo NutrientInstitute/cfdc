@@ -69,6 +69,46 @@ label > input[type='radio']:checked + *::before {
     background: radial-gradient(white 0%, white 30%, #F1592A 30%, #F1592A);
     border-color: #F1592A;
 }
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 20px;
+  transition: 0.4s;
+  font-weight: bold;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 15px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 </style>
 
 <script>
@@ -80,6 +120,23 @@ window.getSelection().removeAllRanges();
 window.getSelection().addRange(r);
 document.execCommand('copy');
 window.getSelection().removeAllRanges();
+}
+</script>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
 }
 </script>
 ```
@@ -100,32 +157,37 @@ library(shiny)
 library(shinyBS)
 ```
 
-```{r}
-# Create additional information tab (collapsible from top)
-div(id = "app_info", 
-    class = "collapse out",
-    style = "background:#F5F5F5; padding: 10px;", 
-    "Fill out the form below to generate a comprehensive food and nutrient data citation. Generated citations incorporate all applicable components of the CFDC standard and are formatted per ",
-    tags$a(href = "https://www.ncbi.nlm.nih.gov/books/NBK7273/#A57722",
-           "NLM Citing Medicine guidelines."),
-    br(),
-    br(),
-    "Further docummentation of this app can be found on  ",
-    tags$a(href = "https://github.com/NutrientInstitute/cfdc", "github"),
-    ".")
-         
-         
-HTML("<button type='button' class='btn' data-toggle='collapse' style = 'outline: 2px solid #F1592A;float:left;' data-target='#app_info'><span class='glyphicon glyphicon-collapse-down'></span> More Information</button>")
 
 
 
+```{=HTML}
+<button class="accordion">More Information</button>
+<div class="panel">
+  <br>
+  <p>Fill out the form below to generate a comprehensive food and nutrient data citation. Generated citations incorporate all applicable components of the CFDC standard and are formatted per <a href = 'https://www.ncbi.nlm.nih.gov/books/NBK7273/#A57722'> NLM Citing Medicine guidelines.</a>
+     <br>
+     <br>
+     Further docummentation of this app can be found on <a href = 'https://github.com/NutrientInstitute/cfdc'>github</a>.
+     <br></p>
+</div>
+<button class="accordion">NHANES Example</button>
+<div class="panel" style = 'min-height: 0px;'>
+  <br>
+  <b>Formal Citation:</b>
+  <p>Centers for Disease Control and Prevention, National Center for Health Statistics. In: National Health and Nutrition Examination Survey: 2017-2018 Dietary Data [Internet dataset]. Hyattsville, MD: U.S. Department of Health & Human Services; 2020 Jun [accessed 2023 Apr 10]. Available from: https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Dietary&CycleBeginYear=2017
+</p>
+  <br>
+  <b>Descriptive Citation:</b>
+  <p>The following subset of food data from NHANES 2017-2018 Dietary Data was included in this analysis: Dietary Interview - Individual Foods, First Day (file name DR1IFF_J). Food data was transformed or altered for use in this analysis. The following edits were made: foods with no dietary fiber were excluded. The Comprehensive Food Data Citation (CFDC) guideline was used to facilitate replicability.
+</p>
+  <br>
+  <b>Codebook Citation:</b>
+  <p>Centers for Disease Control and Prevention, National Center for Health Statistics. 2017-2018 Data Documentation, Codebook, and Frequencies: Dietary Interview - Individual Foods, First Day (DR1IFF_J)[Internet].Hyattsville, MD: U.S. Department of Health & Human Services; 2020 Jun [accessed 2023 Apr 10].Available from: https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DR1IFF_J.htm</p>
+  <br>
+</div>
 ```
 
 
-
-<div>
-<br>
-</div>
 
 <br>
 
@@ -357,10 +419,10 @@ div(style = "justify-content: left;display: flex;flex-wrap: wrap;padding-bottom:
     div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height: 100px; background: #fdece7;padding: 10px;",
     id = "descriptive",
     renderText(paste0(ifelse(input$subset != "" & input$title != "", 
-                             paste0("The following subset of food data from ", ifelse(input$title == "", "[dataset title]", input$title), " was included in this analysis:", input$subset ), 
+                             paste0("The following subset of food data from ", ifelse(input$title == "", "[dataset title]", input$title), " was included in this analysis: ", input$subset, ". " ), 
                              paste0("All food data from ", ifelse(input$title == "", "[dataset title]", input$title), " was included in analysis. ")), 
                       ifelse(input$edits != "", 
-                             paste0("Food data was transformed or altered for use in this analysis. The following edits were made: ", input$edits), 
+                             paste0("Food data was transformed or altered for use in this analysis. The following edits were made: ", input$edits, ". "), 
                              paste0("Food data was used as published, with no edits or transformations.")),
                              paste0(" The Comprehensive Food Data Citation (CFDC) guideline was used to facilitate replicability.")))
     )
