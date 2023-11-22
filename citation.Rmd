@@ -210,15 +210,6 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
               width = '400px', 
               placeholder = "ex) Haytowitz DB, Ahuja JKC, Wu X, Somanchi M, Nickle M, Nguyen QA, Roseland JM, Williams JR, Patterson KY, Li Y, et al.")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
-    textInput(inputId = "parent", 
-              label = tags$span(
-                "Name of Parent/Series", 
-                tags$i(class = "glyphicon glyphicon-info-sign",
-                       style = "color:gray;font-size:20px;",
-                       id = "parent_tooltip")), 
-              width = '400px', 
-              placeholder = "ex) FoodData Central")),
-div(style = "display:inline-block; margin:0px 5px 0px;",
     textInput(inputId = "title", 
               label = tags$span(
                 "Tile/Name", 
@@ -245,6 +236,15 @@ div(style = "display:inline-block; margin:0px 5px 0px;",
                        id = "edition_tooltip")), 
               width = '400px', 
               placeholder =  "ex) 5th Edition")),
+div(style = "display:inline-block; margin:0px 5px 0px;",
+    textInput(inputId = "parent", 
+              label = tags$span(
+                "Name of Parent/Series", 
+                tags$i(class = "glyphicon glyphicon-info-sign",
+                       style = "color:gray;font-size:20px;",
+                       id = "parent_tooltip")), 
+              width = '400px', 
+              placeholder = "ex) FoodData Central")),
 div(style = "display:inline-block; margin:0px 5px 0px;",
     textInput(inputId = "type", 
               label = tags$span(
@@ -341,24 +341,25 @@ div(style="width: 100%; outline: 2px solid #F1592A; font-size: 20px;  min-height
     span(style = "color:gray;", renderText(ifelse(input$author == "" & input$parent == "" & input$title == "" & input$publisher == "" & input$URL == "" &input$accessdate == "" & input$revdate == "" & input$type == "" & input$edition == "" & input$version == "" & input$identifier == "", paste("EXAMPLE:", "Haytowitz DB, Ahuja JKC, Wu X, Somanchi M, Nickle M, Nguyen QA, Roseland JM, Williams JR, Patterson KY, Li Y, et al. USDA National Nutrient Database for Standard Reference, Legacy Release [Internet dataset]. Nutrient Data Laboratory, Beltsville Human Nutrition Research Center, ARS, USDA; 2019 May 7 [modified 2022 Jan 7; accessed 2022 Nov 7]. Available from: https://data.nal.usda.gov/dataset/usda-national-nutrient-database-standard-reference-legacy-release identifier: 69ebc253-1869-4bf0-8471-b0c2fb5742f5"),paste0("")))),
     renderText(ifelse(input$author == "" & input$parent == "" & input$title == "" & input$publisher == "" & input$URL == "" &input$accessdate == "" & input$revdate == "" & input$type == "" & input$edition == "" & input$version == "" & input$identifier == "", paste0(""), paste0(input$author, 
                       ifelse(input$author == "", "", ". "), 
-                      ifelse(input$parent != "", paste0("In: ", input$parent, ifelse(input$title != "",": ", "")), ""),
                       input$title, 
-                      ifelse(input$title != "" & (input$version != "" | input$edition != ""),", ", " "), 
+                      ifelse(input$title != "" & (input$version != "" | input$edition != ""),", ", ""), 
                       input$version, 
                       ifelse(input$version != "" & input$edition != "", ", ", ""),
                       input$edition, 
+                      ifelse(input$version != "" | input$edition != "", ".", ""),
+                      ifelse(input$parent != "", paste0(" In: ", input$parent, ifelse(input$title != "","", "")), ""),
                       ifelse(input$type != ""," [", ""), 
                       input$type, 
                       ifelse(input$type != "","]. ", ""), 
                       input$place, 
-                      ifelse(input$place == "","[place unknown]:" , ": "), 
+                      ifelse(input$place == "" | input$publisher == "","" , ": "), 
                       input$publisher, 
-                      ifelse(input$publisher != "" | input$title != "", "; ", ""), 
+                      ifelse(input$publisher != "" &  input$pubdate != "", "; ", ""), 
                       input$pubdate, 
                       ifelse(input$accessdate != "" | input$revdate != "", " [", ""),
                       ifelse(input$revdate != "","modified ", ""), 
                       input$revdate, 
-                      ifelse(input$revdate == "","" ," ;"),
+                      ifelse(input$revdate == "" | input$accessdate == "" ,"" ,";"),
                       ifelse(input$accessdate != "", "accessed ", ""),
                       input$accessdate, 
                       ifelse(input$accessdate != "" | input$revdate != "", "]. ", ""), 
@@ -733,7 +734,7 @@ renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="icon-bar">
-  <a href="nutrientinstitute.org"><img src="NI_LOGO.png" style="width:50px;height:75px;float: right;margin:10px;"></a>
+  <a href="https://nutrientinstitute.org"><img src="NI_LOGO.png" style="width:50px;height:75px;float: right;margin:10px;"></a>
   <p style="float:right;padding-top:30px;"> Brought to you by </p>
   <a href = "https://github.com/NutrientInstitute/cfdc" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a>
 </div>
