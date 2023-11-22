@@ -164,11 +164,11 @@ library(shinyBS)
 <button class="accordion">More Information</button>
 <div class="panel">
   <br>
-  <p>Fill out the form below to generate a comprehensive food and nutrient data citation. Generated citations incorporate all applicable components of the CFDC standard and are formatted per <a href = 'https://www.ncbi.nlm.nih.gov/books/NBK7273/#A57722'> NLM Citing Medicine guidelines.</a>
+  <p>Fill out the form below to generate a comprehensive food and nutrient data citation. Generated citations incorporate all applicable components of the CFDC standard and are formatted per NLM Citing Medicine guidelines<sup>1</sup>.</a>
      <br>
      <br>
-     Further docummentation of this app can be found on <a href = 'https://github.com/NutrientInstitute/cfdc'>github</a>.
-     <br></p>
+     Further docummentation of this app can be found at https://github.com/NutrientInstitute/cfdc.</p>
+     <p style = "font-size:10px">1. Patrias K, author; Wendling D, editor. Citing Medicine: The NLM Style Guide for Authors, Editors, and Publishers [Internet]. 2nd edition. Bethesda (MD): National Library of Medicine (US); 2007-. Chapter 24, Databases/Retrieval Systems/Datasets on the Internet. 2007 Oct 10 [Updated 2018 May 18]. Available from: https://www.ncbi.nlm.nih.gov/books/NBK7273/<br></p>
 </div>
 <button class="accordion">NHANES Example</button>
 <div class="panel" style = 'min-height: 0px;'>
@@ -732,9 +732,9 @@ renderUI(if(code_book() == "Yes, it must be accessed seperately from the dataset
 
 ***
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="icon-bar">
-  <a href="https://nutrientinstitute.org"><img src="NI_LOGO.png" style="width:50px;height:75px;float: right;margin:10px;"></a>
-  <p style="float:right;padding-top:30px;"> Brought to you by </p>
-  <a href = "https://github.com/NutrientInstitute/cfdc" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a>
-</div>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<!-- <div class="icon-bar"> -->
+<!--   <a href="https://nutrientinstitute.org"><img src="NI_LOGO.png" style="width:50px;height:75px;float: right;margin:10px;"></a> -->
+<!--   <p style="float:right;padding-top:30px;"> Brought to you by </p> -->
+<!--   <a href = "https://github.com/NutrientInstitute/cfdc" class="fa fa-github" style="font-size:55px;color:gray;float: left;margin:10px;"></a> -->
+<!-- </div> -->
